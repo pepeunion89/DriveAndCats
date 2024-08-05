@@ -9,7 +9,6 @@ public class TransmissionScript : MonoBehaviour {
     private enum AudioState { StartCar, Idle, Accelerating, FullSpeed }
     private AudioState currentState;
 
-    private float accelerationTime = 12f;
     private Coroutine accelerationCoroutine;
 
     private void Start() {
@@ -66,7 +65,7 @@ public class TransmissionScript : MonoBehaviour {
     }
 
     IEnumerator AccelerationTimer() {
-        yield return new WaitForSeconds(accelerationTime);
+        yield return new WaitForSeconds(audioClips[1].length);
         if (currentState == AudioState.Accelerating) {
             SetAudioState(AudioState.FullSpeed);
             currentState = AudioState.FullSpeed;
