@@ -45,7 +45,6 @@ public class TransmissionScript : MonoBehaviour {
             case AudioState.Idle:
                 audioSource.clip = audioClips[1];
                 audioSource.loop = true;
-                audioSource.volume = 0.5f;
                 break;
             case AudioState.Accelerating:
                 audioSource.clip = audioClips[2];
@@ -53,7 +52,6 @@ public class TransmissionScript : MonoBehaviour {
             case AudioState.FullSpeed:
                 audioSource.clip = audioClips[3];
                 audioSource.loop = true;
-                audioSource.volume = 0.5f;
                 break;
         }
         audioSource.Play();

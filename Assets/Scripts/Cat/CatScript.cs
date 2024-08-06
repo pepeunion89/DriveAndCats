@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class CatScript : MonoBehaviour {
     [SerializeField] public AudioSource meowSound;
     [SerializeField] public Button catchButton;
-    private Player currentPlayer;
+    private Player currentPlayer = null;
     private PhotonView photonView;
 
     private void Awake() {
@@ -29,6 +29,7 @@ public class CatScript : MonoBehaviour {
     private void OnTriggerExit2D(Collider2D collision) {
         if (collision.GetComponent<PhotonView>() != null && collision.GetComponent<PhotonView>().IsMine) {
             meowSound.Stop();
+            currentPlayer = null;
         }
     }
 
@@ -36,13 +37,13 @@ public class CatScript : MonoBehaviour {
     private void CatchCat() {
         if (currentPlayer != null) {
             currentPlayer.GetInventory().AddCat();
-        }
 
-        if (PhotonNetwork.IsMasterClient) {
-            PhotonNetwork.Destroy(gameObject);
-        } else {            
-            photonView.RPC("RequestDestroy", RpcTarget.MasterClient, photonView.ViewID);
-        }
+            if (PhotonNetwork.IsMasterClient) {
+                PhotonNetwork.Destroy(gameObject);
+            } else {
+                photonView.RPC("RequestDestroy", RpcTarget.MasterClient, photonView.ViewID);
+            }
+        }        
     }
 
     [PunRPC]
